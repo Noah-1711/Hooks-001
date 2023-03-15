@@ -3,22 +3,21 @@ import './App.css';
 import { questions } from './Components/Questions'
 
 
-//  const correct={background:"white"}
-//  const wrong={background:"red"}
+//  const correct={background: "green"}
+//  const wrong={background: "red"}
 
 
 function App() {
   const [currentvalue, setCurrentvalue] = useState(0)
   const [showScore, setShowScore] = useState(false);
-  // const[btncolor, SetBtncolor] = useState(true)
+  // const[btncolor, SetBtncolor] = useState("")
   const [score, setScore]=useState(0)
 
-  const handleanswer=( isCorrect)=>{
-    if(isCorrect){
-      setScore(score+1)
-    }
-   
 
+  const handleanswer=(isCorrect)=>{
+    if(isCorrect){
+      setScore(score+1)     
+    }
     const nextvalue= currentvalue+1
     if(nextvalue < questions.length){
       setCurrentvalue(nextvalue)
@@ -29,11 +28,21 @@ function App() {
     
     
   }
+  const restartGame = () => {
+    setScore(0);
+    setCurrentvalue(0);
+    setShowScore(false);
+  };
 
   return (
     <div className="app">
       {showScore?(<div className='maincontainer'>
-				<h1>You scored {score} out of {questions.length}</h1>	
+        <h1>Final Results</h1>
+          <h2>
+            {score} out of {questions.length} correct - (
+            {(score / questions.length) * 100}%)
+          </h2>
+          <button className='restart-btn'onClick={() => restartGame()}>Restart game</button>
   
 				</div>):(<>
           <div className='maincontainer'>
@@ -47,8 +56,10 @@ function App() {
 
           <div className='answer-section'>
           {questions[currentvalue].answerOptions.map((ele)=>{
-           return <button  onClick={()=>{
+           return <button className='cont' onClick={()=>{
             handleanswer(ele.isCorrect)
+            
+
             
            }}>{ele.answerText} </button>
          
